@@ -27,7 +27,7 @@ module.exports = class ChambreController{
         try {
             const etudiant = await Etudiant.findOne({num_carte})
             if(etudiant){
-                if(pavillon == "G"){
+                if(pavillon === "G"){
                     chambres = await Chambre.find({pavillon, sexe: etudiant.sexe, nb_place: {$eq: 6}}).sort([['numero', 1]])
                 }else{
                     chambres = await Chambre.find({pavillon, sexe: etudiant.sexe, nb_place: {$eq: 3}}).sort([['numero', 1]])
@@ -65,8 +65,20 @@ module.exports = class ChambreController{
                     return { pav, girl:place_fille, boy:place_garcon }
                 }))
             return res.json({code:200, places })
-            } catch (err) {
-            return res.json({code:400, msg: err.msg})   
+        } catch (err) {
+            return res.json({code:400, msg: err.msg})
+        }
+    }
+    async addChambres (req, res) {
+        try {
+            const chambre = await Chambre.create(
+                {
+                    ...req.body
+                }
+            );
+            res.json({code: 200, chambre})
+        } catch (err) {
+            res.json({code: 400, msg: err.msg})
         }
     }
 }

@@ -8,9 +8,9 @@ const router = express.Router()
 const controller = new Controller()
 
 
-router.post('/reserver/:id', requireAuth, controller.reserver)
-router.post('/valider/:numCarte', requireAdmin, controller.valider)
-router.post('/annuler/:numCarte', requireAdmin, controller.annuler)
+router.post('/reserver/:id', requireAuth,controller.reserver)
+router.post('/valider/:numCarte', requireAuth, controller.valider)
+router.post('/annuler/:numCarte', requireAuth, controller.annuler)
 
 
 module.exports = router

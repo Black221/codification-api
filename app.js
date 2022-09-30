@@ -17,7 +17,7 @@ const requireAuth = require('./middlewares/authMiddleware')
 
 const app = express()
 
-var corsOptions = {
+let corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
@@ -30,14 +30,14 @@ app.get('/', (req, res)=>{
     res.send("Bienvenue trés cher vous n'avez rien à faire ici, allez sur: www.espolytech.com")
 })
 
-//app.options('*', cors()) 
+app.use(cors(corsOptions))
 
-app.use('/etudiant/',cors(corsOptions), etudiantRouter)
-app.use('/compte',cors(corsOptions), compteRouter)
-app.use('/reservation',cors(corsOptions), resaRouter)
-app.use('/chambre',cors(corsOptions), requireAuth, chambreRouter)
-app.use('/admin',cors(corsOptions), adminRouter)
-app.use('/reserverTerrain',cors(corsOptions), reserverRouter)
+app.use('/etudiant/', etudiantRouter)
+app.use('/compte', compteRouter)
+app.use('/reservation', resaRouter)
+app.use('/chambre', requireAuth, chambreRouter)
+app.use('/admin', adminRouter)
+app.use('/reserverTerrain', reserverRouter)
 
 app.use( errorHandler )
 

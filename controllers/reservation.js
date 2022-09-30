@@ -10,11 +10,11 @@ module.exports = class ResaController {
         try {
             const etudiant = await Etudiant.findOne({num_carte})
             const compte = await Compte.findById(etudiant.compte)
-            if(compte.reserver == false){
+            if(compte.reserver === false){
                 const id = req.params.id
                 const chambre = await Chambre.findById(id)
                 if(chambre.nb_place > 0){
-                    if(chambre.nb_place == 1 && chambre.pavillon != "G"){
+                    if(chambre.nb_place === 1 && chambre.pavillon !== "G"){
                         Chambre.updateOne({_id:id}, {$inc: { nb_place:-1 }})
                            .exec()
                            .then( async () => {
@@ -53,8 +53,8 @@ module.exports = class ResaController {
             const etudiant = await Etudiant.findOne({num_carte: numCarte})
             const compte = await Compte.findById(etudiant.compte)
             if(compte != null){
-                if(compte.reserver == true){
-                    if(compte.codifier == false){
+                if(compte.reserver === true){
+                    if(compte.codifier === false){
                         await Compte.findByIdAndUpdate(etudiant.compte, {codifier: true})
                         return res.json({code:200, msg: "Codification validé avec succés"})
                     }else{
@@ -78,7 +78,10 @@ module.exports = class ResaController {
             const etudiant = await Etudiant.findOne({num_carte: numCarte})
             const idCompte = etudiant.compte
             const compte = await Compte.findById(idCompte)
-            if(compte.reserver == true){
+            if (compte.codifier)
+                return res.json({code:500, msg: "Vous avez déjà codifié"})
+
+            if(compte.reserver){
                 const resa = await Resa.findOne({compte: idCompte})
                 await Chambre.findByIdAndUpdate(resa.chambre, {$inc: { nb_place:1 }})
                 await Resa.findOneAndRemove({compte: idCompte})

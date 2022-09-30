@@ -7,7 +7,7 @@ module.exports = class CompteModel {
         this.email = email
         this.password = password
         this.inscrit = inscrit
-        this.reserver = reserver,
+        this.reserver = reserver
         this.codifier = codifier
     }
 }

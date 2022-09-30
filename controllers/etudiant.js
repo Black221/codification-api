@@ -12,10 +12,10 @@ module.exports = class EtudiantController {
         try {
             const etudiants = await Etudiant.find().populate('compte')
             const finalResult = await Promise.all(etudiants.map(async function(etud){
-                var compte = etud.compte
+                let compte = etud.compte
                 if(compte != null){
                     const resa = await Resa.findOne({compte: compte}).populate('chambre')
-                    var reservation = null
+                    let reservation
                     if(resa){
                         reservation = {reservation: resa._doc}
                     }else{
@@ -24,7 +24,7 @@ module.exports = class EtudiantController {
                     etud = {...etud._doc, ...reservation}
                     return etud
                 }else{
-                    var reservation = {reservation: null}
+                    let reservation = {reservation: null}
                     etud = {...etud._doc, ...reservation}
                     return etud
                 }

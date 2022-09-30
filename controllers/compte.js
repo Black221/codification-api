@@ -16,8 +16,7 @@ module.exports = class CompteController {
     async inscription(req, res){
         /*S'incrire pour codifier */
         try {
-            const hashPassword = bcrypt.hashSync(req.body.password, 10)
-            req.body.password = hashPassword
+            req.body.password = bcrypt.hashSync(req.body.password, 10)
             const { num_carte:numcarte } = req.params
             // Création du compte
             Etudiant.findOne({ num_carte:numcarte })
@@ -30,11 +29,11 @@ module.exports = class CompteController {
                         const newCompte = new Compte({...req.body, inscrit:true })
                         await newCompte.save()
                         await etudiant.update({ $set : { compte:newCompte._id } })
-                        await etudiant.update({tel: req.body.tel})
-                        //const newToken = createToken(newCompte._id)
-                        return res.json({code:200, compte: newCompte /*, token: newToken*/})    
+                        const token = createToken(newCompte._id)
+                        return res.json({code:200, compte: newCompte , user: {num_carte: req.body.num_carte, token}})
                     })
                     .catch( err =>{
+                        console.log(err)
                         return res.json({ code:400, msg:"Cet étudiant n'éxiste pas" })
                     })
 
@@ -51,14 +50,14 @@ module.exports = class CompteController {
             if(etudiant){
                 const compte = await Compte.findById(etudiant.compte)
                 if(compte){
-                    if(compte.inscrit == true){
+                    if(compte.inscrit === true){
                         if(bcrypt.compareSync(req.body.password, compte.password)){
-                            if(compte.reserver == true){
+                            if(compte.reserver === true){
                                 const resa = await Resa.findOne({compte: compte._id})
                                 chambre = await Chambre.findById(resa.chambre)
                             }
                             const token = createToken(compte._id)
-                            return res.json({code:200, etudiant, chambre, token})
+                            return res.json({code:200, etudiant, chambre, codifier: compte.codifier, user: {num_carte: etudiant.num_carte, token}})
                         }
                         else{
                             return res.json({code:500, msg: "mot de passe incorrect"})
@@ -87,7 +86,7 @@ module.exports = class CompteController {
                 etudiant.compte = null
                 etudiant.save()
                 const compte = await Compte.findById(idCompte)
-                if(compte.reserver == true){
+                if(compte.reserver === true){
                     const resa = await Resa.findOne({compte: idCompte})
                     await Chambre.findByIdAndUpdate(resa.chambre, {$inc: { nb_place:1 }})
                     await Resa.findOneAndRemove({compte: idCompte})
