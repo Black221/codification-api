@@ -5,7 +5,7 @@ const Chambre = require('../models/chambre')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const maxAge = 3 * 24 * 60 * 60
+const maxAge = 7 * 24 * 60 * 60
 
 const createToken = (id) => {
     return jwt.sign({id}, 'secret token', {expiresIn: maxAge})
@@ -29,8 +29,8 @@ module.exports = class CompteController {
                         const newCompte = new Compte({...req.body, inscrit:true })
                         await newCompte.save()
                         await etudiant.update({ $set : { compte:newCompte._id } })
-                        const token = createToken(newCompte._id)
-                        return res.json({code:200, compte: newCompte , user: {num_carte: req.body.num_carte, token}})
+                        // const token = createToken(newCompte._id)
+                        return res.json({code:200, compte: newCompte , etudiant})
                     })
                     .catch( err =>{
                         console.log(err)
@@ -57,7 +57,7 @@ module.exports = class CompteController {
                                 chambre = await Chambre.findById(resa.chambre)
                             }
                             const token = createToken(compte._id)
-                            return res.json({code:200, etudiant, chambre, codifier: compte.codifier, user: {num_carte: etudiant.num_carte, token}})
+                            return res.json({code:200, etudiant, chambre, codifier: compte.codifier, user: {num_carte: etudiant.num_carte, admin: etudiant.admin, token}})
                         }
                         else{
                             return res.json({code:500, msg: "mot de passe incorrect"})

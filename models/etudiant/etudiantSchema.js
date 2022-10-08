@@ -15,5 +15,9 @@ module.exports = new Schema({
     niveau: String,
     num_carte: { type:String, required:true, unique: true },
     compte: { type: Schema.Types.ObjectId, default: null, ref:'Compte'},
-    sexe: { type:String, enum: ['F', 'M'] }
+    sexe: { type:String, enum: ['F', 'M'] },
+    admin : {
+        type: Boolean,
+        default: false
+    }
 },{ collection: 'etudiants' })

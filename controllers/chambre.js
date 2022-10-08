@@ -3,6 +3,16 @@ const Etudiant = require('../models/etudiant')
 const Reservation = require('../models/reservation')
 
 module.exports = class ChambreController{
+
+    async getAllChambres (req, res) {
+        try {
+            const chambres = await Chambre.find()
+            res.json({code: 200, chambres});
+        } catch (err) {
+            res.json({code: 400, msg: err.message})
+        }
+    }
+
     async getChambre(req, res, next){
         /*Afficher les chambres du sexe de l'etudiant disponible*/
         const { num_carte } = req.params

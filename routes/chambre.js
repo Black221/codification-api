@@ -6,6 +6,7 @@ const router = express.Router()
 const controller = new Controller()
 
 router.post('/add', controller.addChambres)
+router.get('/getAllChambres', controller.getAllChambres)
 router.post('/getChambre/:num_carte', controller.getChambre)
 router.post('/getChambreVide/:num_carte', controller.getChambreVide)
 router.get('/getReserved/:idChambre', controller.getReserved)

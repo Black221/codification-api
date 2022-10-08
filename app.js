@@ -13,6 +13,7 @@ const reserverRouter = require('./routes/reserverTerrain')
 /* Middlewares */
 const errorHandler = require('./middlewares/errorHandler')
 const requireAuth = require('./middlewares/authMiddleware')
+const Controller = require("./controllers/chambre");
 
 
 const app = express()
@@ -31,12 +32,13 @@ app.get('/', (req, res)=>{
 })
 
 app.use(cors(corsOptions))
+const controller = new Controller()
 
 app.use('/etudiant/', etudiantRouter)
 app.use('/compte', compteRouter)
 app.use('/reservation', resaRouter)
 app.use('/chambre', requireAuth, chambreRouter)
-app.use('/admin', adminRouter)
+app.use('/admin',requireAuth, adminRouter)
 app.use('/reserverTerrain', reserverRouter)
 
 app.use( errorHandler )
