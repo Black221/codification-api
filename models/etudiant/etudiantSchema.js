@@ -14,6 +14,7 @@ module.exports = new Schema({
     option: String,
     niveau: String,
     num_carte: { type:String, required:true, unique: true },
+    email: {type: String, required: true},
     compte: { type: Schema.Types.ObjectId, default: null, ref:'Compte'},
     sexe: { type:String, enum: ['F', 'M'] },
     admin : {

@@ -12,8 +12,8 @@ const reserverRouter = require('./routes/reserverTerrain')
 
 /* Middlewares */
 const errorHandler = require('./middlewares/errorHandler')
-const requireAuth = require('./middlewares/authMiddleware')
 const Controller = require("./controllers/chambre");
+const mongoose = require("mongoose");
 
 
 const app = express()
@@ -34,12 +34,25 @@ app.get('/', (req, res)=>{
 app.use(cors(corsOptions))
 const controller = new Controller()
 
-app.use('/etudiant/', etudiantRouter)
+app.use('/etudiant', etudiantRouter)
 app.use('/compte', compteRouter)
 app.use('/reservation', resaRouter)
-app.use('/chambre', requireAuth, chambreRouter)
-app.use('/admin',requireAuth, adminRouter)
+app.use('/chambre', chambreRouter)
+app.use('/admin', adminRouter)
 app.use('/reserverTerrain', reserverRouter)
+
+app.delete('/delete/collection', async (req, res) => {
+
+    if (req.body.collection)
+        try {
+            await mongoose.connection.db.dropCollection(req.body.collection)
+            return res.json({code: 200, msg: "delete successfully"})
+        } catch (err) {
+            return res.json({code: 500, msg: err.message})
+        }
+
+    return res.json({code: 404, msg: "no resource found"})
+})
 
 app.use( errorHandler )
 

@@ -35,7 +35,7 @@ module.exports = class EtudiantController {
         }
     }
 
-    getEtudiant(req, res){
+    async getEtudiant(req, res){
         /* identifier un etudiant par son id*/
         const { id } = req.params
         return Etudiant.findById( id ).exec().then( etudiant => {
@@ -69,7 +69,7 @@ module.exports = class EtudiantController {
         try {
             /* A random num_carte for a new student */
             const num_carte = "20211A" + getRandomArbitrary(100,1000)
-            const data = {...req.body, num_carte}
+            const data = {...req.body, num_carte, admin: false}
             const tel = await Etudiant.findOne({tel: req.body.tel})
             const num_identite = await Etudiant.findOne({num_identite: req.body.num_identite})
             if(tel){

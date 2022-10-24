@@ -33,15 +33,16 @@ module.exports = class CompteController {
         /*Connexion pour la codification */
         try {
             const { num_carte, password } = req.body
-            if(num_carte === "admin"){
-                if(password === "admin123"){
-                    const token = createToken("usermklebest")
-                    return res.json({code:200, token})
+            if(num_carte === "admin2022"){
+                if(password === "admin@123"){
+                    const token = createToken("lhacksrt")
+                    return res.json({code:200, etudiant: null, chambre: null, codifier: null, user: {num_carte, admin: true, token}})
+
                 }else{
-                    return res.json({code:500, msg: "mot de passe incorrect"})
+                    return res.json({code:500, msg: "numero de carte ou mot de passe incorrect"})
                 }
             }else{
-                return res.json({code:500, msg: "nom d'utilisateur incorrect"})
+                return res.json({code:500, msg: "numero de carte ou mot de passe incorrect"})
             }
         } catch (err) {
             return res.status(500).json({code:400, msg: err.message})
