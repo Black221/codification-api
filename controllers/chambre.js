@@ -62,6 +62,7 @@ module.exports = class ChambreController{
             return res.json({code:400, msg: err.msg})
         }
     }
+
     async getPlaces(req, res){
         /*Affiche le nombre de place libre pour tous les pavillons */
         try {

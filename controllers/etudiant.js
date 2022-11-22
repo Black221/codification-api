@@ -15,17 +15,34 @@ module.exports = class EtudiantController {
                 let compte = etud.compte
                 if(compte != null){
                     const resa = await Resa.findOne({compte: compte}).populate('chambre')
-                    let reservation
+                    console.log(resa)
+                    let reservation;
+                    let chambre;
                     if(resa){
-                        reservation = {reservation: resa._doc}
+                        reservation = {...resa._doc}
+                        chambre = reservation.chambre.numero+""+reservation.chambre.pavillon
                     }else{
-                        reservation = {reservation: null}
+                        // reservation = {reservation: null}
+                        chambre = "non codifié"
                     }
-                    etud = {...etud._doc, ...reservation}
+                    etud = { nom: etud.nom,
+                        prenom: etud.prenom,
+                        sexe: etud.sexe,
+                        tel: etud.tel,
+                        num_carte: etud.num_carte,
+                        chambre
+                    }
                     return etud
                 }else{
-                    let reservation = {reservation: null}
-                    etud = {...etud._doc, ...reservation}
+                    // let reservation = {reservation: null}
+                    etud = {
+                        num_carte: etud.num_carte,
+                        nom: etud.nom,
+                        prenom: etud.prenom,
+                        sexe: etud.sexe,
+                        tel: etud.tel,
+                        chambre: "non codifié"
+                    }
                     return etud
                 }
             }))
@@ -51,7 +68,7 @@ module.exports = class EtudiantController {
             const etudiant = await Etudiant.findOne({num_carte: carte})
             const compte = etudiant.compte
             const resa = await Resa.findOne({compte: compte}).populate('chambre')
-            var reservation = null
+            let reservation;
             if(resa){
                 reservation = {reservation: resa._doc}
             }else{

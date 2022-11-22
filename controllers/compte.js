@@ -25,8 +25,8 @@ module.exports = class CompteController {
                         const compte = etudiant.compte
                         if(compte)
                             return res.json({ code:200, msg:"Vous êtes déja inscrit" });
-                        if (etudiant.email !== req.body.email)
-                            return res.json({code: 200, msg: "Le mail saisi et le numéro de carte ne corresponde pas."})
+                        // if (etudiant.email !== req.body.email)
+                        //     return res.json({code: 200, msg: "Le mail saisi et le numéro de carte ne corresponde pas."})
 
                         const newCompte = new Compte({...req.body, inscrit:true })
                         await newCompte.save()

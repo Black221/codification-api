@@ -32,7 +32,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use(cors(corsOptions))
-const controller = new Controller()
+// const controller = new Controller()
 
 app.use('/etudiant', etudiantRouter)
 app.use('/compte', compteRouter)
