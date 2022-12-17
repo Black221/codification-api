@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "": "server.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      // Specify which paths will route to a destination using a regex
+      "": "/(.*)",
+      // Specify the paths' destination
+      "dest": "index.js"
+    }
+  ]
+}
