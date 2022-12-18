@@ -4,7 +4,7 @@ const { Schema } = mongoose
 
 
 module.exports = new Schema({
-    email: {type: String, unique: true},
+    email: {type: String},
     password: String,
     inscrit: {type: Boolean, default: false},
     reserver: {type: Boolean,default: false},
