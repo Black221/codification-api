@@ -2,8 +2,8 @@
   "version": 2,
   "builds": [
     {
-      "": "server.js",
-      "use": "@now/node"
+      "": "./server.js",
+      "use": "@versel/node"
     }
   ],
   "routes": [
