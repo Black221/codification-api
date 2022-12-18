@@ -31,7 +31,7 @@ app.get('/', (req, res)=>{
     res.send("Bienvenue trés cher vous n'avez rien à faire ici, allez sur: www.espolytech.com")
 })
 
-//app.use(cors(corsOptions))
+app.use(cors())
 // const controller = new Controller()
 
 app.use('/etudiant', etudiantRouter)
