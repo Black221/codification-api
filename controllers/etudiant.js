@@ -30,6 +30,7 @@ module.exports = class EtudiantController {
                         sexe: etud.sexe,
                         tel: etud.tel,
                         num_carte: etud.num_carte,
+                        niveau: etud.niveau,
                         chambre
                     }
                     return etud
@@ -41,6 +42,7 @@ module.exports = class EtudiantController {
                         prenom: etud.prenom,
                         sexe: etud.sexe,
                         tel: etud.tel,
+                        niveau: etud.niveau,
                         chambre: "non codifié"
                     }
                     return etud
