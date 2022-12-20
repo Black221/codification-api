@@ -5,6 +5,14 @@ function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+const NIVEAU = {
+    '5': 'DIC3',
+    '4': 'DIC2',
+    '3': 'DIC1',
+    '2': 'DUT2',
+    '1': 'DUT1',
+}
+
 module.exports = class EtudiantController {
 
     async getEtudiants(req, res){
@@ -30,7 +38,7 @@ module.exports = class EtudiantController {
                         sexe: etud.sexe,
                         tel: etud.tel,
                         num_carte: etud.num_carte,
-                        niveau: etud.niveau,
+                        niveau: NIVEAU[etud.niveau],
                         chambre
                     }
                     return etud
@@ -42,7 +50,7 @@ module.exports = class EtudiantController {
                         prenom: etud.prenom,
                         sexe: etud.sexe,
                         tel: etud.tel,
-                        niveau: etud.niveau,
+                        niveau: NIVEAU[etud.niveau],
                         chambre: "non codifié"
                     }
                     return etud
